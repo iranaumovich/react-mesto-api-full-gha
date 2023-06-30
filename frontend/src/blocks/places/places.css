@@ -1,0 +1,17 @@
+.places {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  justify-items: center;
+  margin: 36px 0 0;
+  padding: 0;
+  gap: 20px;
+  list-style-type: none;
+}
+
+@media screen and (min-width: 321px) {
+  .places {
+    margin-top: 51px;
+    column-gap: 17px;
+  }
+}

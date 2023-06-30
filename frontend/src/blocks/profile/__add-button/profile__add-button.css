@@ -1,0 +1,28 @@
+.profile__add-button {
+  margin: 36px auto 0;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+  width: 282px;
+  height: 50px;
+  padding: 0;
+  background-image: url('../../../images/edd-button-vector.svg');
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: transparent;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 881px) {
+  .profile__add-button {
+    margin-right: 0;
+    margin-left: auto;
+    width: 150px;
+    background-size: 22px 22px;
+  }
+}
