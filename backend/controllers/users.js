@@ -166,9 +166,15 @@ module.exports.login = (req, res, next) => {
           );
         }
         // аутентификация успешна, возвращаем токен, защищенный куки
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-          expiresIn: "7d",
-        });
+        const token = jwt.sign(
+          { _id: user._id },
+          process.env.NODE_ENV !== "production"
+            ? "token-secret-key"
+            : process.env.JWT_SECRET,
+          {
+            expiresIn: "7d",
+          }
+        );
 
         return res.send({ token });
       });

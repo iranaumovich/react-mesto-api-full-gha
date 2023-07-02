@@ -10,7 +10,12 @@ module.exports = (req, res, next) => {
   const token = authorization.replace("Bearer ", "");
   let payload;
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
+    payload = jwt.verify(
+      token,
+      process.env.NODE_ENV !== "production"
+        ? "token-secret-key"
+        : process.env.JWT_SECRET
+    );
   } catch (err) {
     throw new InvalidCredentialsError("Необходима авторизация");
   }
