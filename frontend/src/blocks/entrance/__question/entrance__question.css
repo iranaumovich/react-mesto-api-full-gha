@@ -1,0 +1,22 @@
+.entrance__question {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  margin: 20px 0 0;
+  text-decoration: none;
+  color: #ffffff;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+
+.entrance__question:hover {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 1280px) {
+  .entrance__question {
+    margin: 15px 0 0;
+  }
+}

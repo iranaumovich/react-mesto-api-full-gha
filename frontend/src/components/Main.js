@@ -10,12 +10,16 @@ function Main(props) {
     <main className="main">
       <section className="profile">
         <div onClick={props.onEditAvatar} className="profile__image-container">
-          <img className="profile__avatar" src={userData.avatar} alt="Аватар" />
+          <img
+            className="profile__avatar"
+            src={userData.currentUser.avatar}
+            alt="Аватар"
+          />
         </div>
 
         <article className="profile__info">
           <div className="profile__container">
-            <h1 className="profile__title">{userData.name}</h1>
+            <h1 className="profile__title">{userData.currentUser.name}</h1>
             <button
               type="button"
               className="profile__edit-button"
@@ -23,7 +27,9 @@ function Main(props) {
               onClick={props.onEditProfile}
             ></button>
           </div>
-          <p className="profile__subtitle">{userData.description}</p>
+          <p className="profile__subtitle">
+            {userData.currentUser.description}
+          </p>
         </article>
 
         <button

@@ -1,0 +1,19 @@
+.form__button_type_entrance {
+  width: 260px;
+  margin-top: 143px;
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+@media screen and (min-width: 720px) {
+  .form__button_type_entrance {
+    width: 309px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .form__button_type_entrance {
+    width: 358px;
+    margin-top: 186px;
+  }
+}

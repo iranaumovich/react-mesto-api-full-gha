@@ -1,0 +1,10 @@
+.header__account_type_desktop {
+  display: none;
+}
+
+@media screen and (min-width: 900px) {
+  .header__account_type_desktop {
+    display: flex;
+    gap: 24px;
+  }
+}

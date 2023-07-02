@@ -1,0 +1,21 @@
+.entrance{
+  max-width: 260px;
+  margin: auto;
+  margin-top: 40px;
+  padding-bottom: 77px;
+}
+
+@media screen and (min-width: 720px) {
+  .entrance {
+    max-width: 309px;
+    margin-top: 50px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .entrance {
+    max-width: 358px;
+    margin-top: 60px;
+    padding-bottom: 112px;
+  }
+}

@@ -1,30 +1,26 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
+import { useFormAndValidation } from "../hooks/useFormAndValidation.js";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [place, setPlace] = React.useState("");
-  const [link, setLink] = React.useState("");
-
-  //привязываем стейт переменные к полям ввода, делаем их управляемыми, передаем в обработчик onChange
-  function handleAddPlace(e) {
-    setPlace(e.target.value);
-  }
-
-  function handleAddLink(e) {
-    setLink(e.target.value);
-  }
+  const { values, handleChange, setValues, errors, isValid, resetForm } =
+    useFormAndValidation({
+      place: "",
+      link: "",
+    });
 
   //очищаем инпуты после успешного добавления карточки,  для того чтобы пользователь мог сразу же еще раз добавить что-то новое и ему не пришлось бы очищать инпуты вручную перед этим.
   React.useEffect(() => {
-    setPlace("");
-    setLink("");
+    resetForm();
   }, [isOpen]);
 
   function handleSubmit(e) {
-    // запрещаем браузеру переходить по адресу формы
     e.preventDefault();
+    if (!isValid) {
+      return;
+    }
     // передаём значения управляемых компонентов во внешний обработчик
-    onAddPlace(place, link);
+    onAddPlace(values.place, values.link);
   }
 
   return (
@@ -41,27 +37,37 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         className="form__item form__item_type_picture-title"
         aria-describedby="picture-title-error"
         id="picture-title"
-        name="picture-title"
+        name="place"
         minLength="2"
         maxLength="30"
         placeholder="Название"
-        value={place}
-        onChange={handleAddPlace}
+        value={values.place || ""}
+        onChange={handleChange}
         required
       />
-      <span className="form__error" id="picture-title-error"></span>
+      <span
+        className={`form__error ${errors.place ? "form__error_visible" : ""}`}
+        id="picture-title-error"
+      >
+        {errors.place}
+      </span>
       <input
         type="url"
         className="form__item form__item_type_picture-link"
         aria-describedby="picture-link-error"
         id="picture-link"
-        name="picture-link"
+        name="link"
         placeholder="Ссылка на картинку"
-        value={link}
-        onChange={handleAddLink}
+        value={values.link || ""}
+        onChange={handleChange}
         required
       />
-      <span className="form__error" id="picture-link-error"></span>
+      <span
+        className={`form__error ${errors.link ? "form__error_visible" : ""}`}
+        id="picture-link-error"
+      >
+        {errors.link}
+      </span>
     </PopupWithForm>
   );
 }

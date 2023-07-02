@@ -16,7 +16,11 @@ function PopupWithForm({
     <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}>
       <div className="popup__container">
         <h2 className="popup__heading">{title}</h2>
-        <form className={`form form_type_${name}`} onSubmit={onSubmit}>
+        <form
+          noValidate
+          className={`form form_type_${name}`}
+          onSubmit={onSubmit}
+        >
           {children}
           <button type="submit" className="form__button">
             {buttonText}

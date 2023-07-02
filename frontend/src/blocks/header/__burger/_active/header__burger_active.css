@@ -1,0 +1,19 @@
+.header__burger_active, .header__burger_active::after, .header__burger_active::before {
+  transition: transform 0.25s ease;
+}
+
+.header__burger_active::before{
+  transform: rotate(-45deg);
+	transform-origin: 0px 0px;
+}
+
+.header__burger_active {
+  background-color: transparent;
+}
+
+.header__burger_active::after{
+  transform: rotate(45deg);
+	transform-origin: 0px 3px;
+}
+
+

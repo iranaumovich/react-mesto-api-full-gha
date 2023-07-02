@@ -1,0 +1,12 @@
+.popup__tooltip-subtitle {
+  color: #000000;
+  text-align: center;
+  margin: 0;
+  margin-top: 40px;
+}
+
+@media screen and (min-width: 1280px) {
+  .popup__tooltip-subtitle {
+    margin-top: 32px;
+  }
+}

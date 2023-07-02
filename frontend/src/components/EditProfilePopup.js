@@ -1,37 +1,40 @@
 import React from "react";
+import { useFormAndValidation } from "../hooks/useFormAndValidation.js";
 import PopupWithForm from "./PopupWithForm.js";
 import { CurrentUserContext } from "../components/CurrentUserContext.js";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   //подписываемся на контекст
-  const currentUser = React.useContext(CurrentUserContext);
+  const userData = React.useContext(CurrentUserContext);
   //создаем стейт переменные имени и описания профиля
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+
+  const { values, handleChange, setValues, errors, isValid } =
+    useFormAndValidation({
+      name: "",
+      about: "",
+    });
 
   // после загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
   //следим за isOpen (состоянием открытия), иначе если удалить информацию из инпутов и просто закрыть попап, то при следующем открытии инпуты будут пустые
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.description);
-  }, [currentUser, isOpen]);
-
-  //привязываем стейт переменные к полям ввода, делаем их управляемыми, передаем в обработчик onChange
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeDescription(e) {
-    setDescription(e.target.value);
-  }
+    setValues({
+      name: userData.currentUser.name,
+      about: userData.currentUser.description,
+    });
+  }, [userData, isOpen]);
 
   function handleSubmit(e) {
     // запрещаем браузеру переходить по адресу формы
     e.preventDefault();
+    if (!isValid) {
+      return;
+    }
     // передаём значения управляемых компонентов во внешний обработчик
-    onUpdateUser(name, description);
+    onUpdateUser(values.name, values.about);
   }
+
+  console.log(errors);
 
   return (
     <PopupWithForm
@@ -51,11 +54,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         placeholder="Ваше имя"
         minLength="2"
         maxLength="40"
-        value={name}
-        onChange={handleChangeName}
+        value={values.name}
+        onChange={handleChange}
         required
       />
-      <span className="form__error" id="name-input-error"></span>
+      <span
+        className={`form__error ${errors.name ? "form__error_visible" : ""}`}
+        id="name-input-error"
+      >
+        {errors.name}
+      </span>
       <input
         type="text"
         className="form__item form__item_type_description"
@@ -65,11 +73,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         placeholder="Пару слов о себе"
         minLength="2"
         maxLength="200"
-        value={description}
-        onChange={handleChangeDescription}
+        value={values.about}
+        onChange={handleChange}
         required
       />
-      <span className="form__error" id="about-input-error"></span>
+      <span
+        className={`form__error ${errors.about ? "form__error_visible" : ""}`}
+        id="about-input-error"
+      >
+        {errors.about}
+      </span>
     </PopupWithForm>
   );
 }
