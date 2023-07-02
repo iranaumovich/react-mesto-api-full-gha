@@ -11,12 +11,13 @@ const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 // настроили порт из переменной окружения, который слушаем.
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB_URL = "mongodb://localhost:27017/mestodb" } =
+  process.env;
 
 const app = express();
 
 // подключаемся к серверу mongo
-mongoose.connect("mongodb://localhost:27017/mestodb", {
+mongoose.connect(DB_URL, {
   useNewUrlParser: true,
 });
 
