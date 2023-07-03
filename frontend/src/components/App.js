@@ -202,13 +202,16 @@ function App() {
     auth
       .authorize(email, password)
       .then((data) => {
-        console.log(data);
         if (data.token) {
           setLoggedIn(true);
           navigate("/mesto", { replace: true });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsError(true);
+        setIsInfoTooltipOpen(true);
+        console.log(err);
+      });
   }
 
   function handleLogout() {
