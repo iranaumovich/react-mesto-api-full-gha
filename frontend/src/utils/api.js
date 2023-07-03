@@ -79,9 +79,8 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/cohort-62",
+  baseUrl: "https://api.tsupryk.mesto.nomoreparties.sbs",
   headers: {
-    authorization: "a7a9da57-8aca-43e1-840a-faeb7be1b7c3",
     "Content-Type": "application/json",
   },
 });
