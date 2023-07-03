@@ -15,7 +15,7 @@ import Login from "./Login.js";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ProtectedRouteElement from "./ProtectedRoute";
-import * as auth from "./Auth.js";
+import * as auth from "../utils/auth.js";
 
 import "../index.css";
 import api from "../utils/api.js";
