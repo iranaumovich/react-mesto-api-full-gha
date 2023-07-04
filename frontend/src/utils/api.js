@@ -1,7 +1,14 @@
+const { REACT_APP_API_URL = 'https://api.tsupryk.mesto.nomoreparties.sbs' } =
+  process.env;
+
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
     this._headers = options.headers;
+  }
+
+  setAuthToken(token) {
+    this._headers['Authorization'] = 'Bearer ' + token;
   }
 
   _checkResponse(res) {
@@ -21,12 +28,14 @@ class Api {
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
-    }).then(this._checkResponse);
+    })
+      .then(this._checkResponse)
+      .then(({ data }) => data);
   }
 
   editUserInfo(newName, newDescription) {
     return fetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: newName,
@@ -37,7 +46,7 @@ class Api {
 
   addNewCard(cardName, cardLink) {
     return fetch(`${this._baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: cardName,
@@ -48,28 +57,28 @@ class Api {
 
   setLike(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "PUT",
+      method: 'PUT',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: isLiked ? "DELETE" : "PUT",
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   changeAvatar(avatarLink) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: avatarLink,
@@ -79,9 +88,9 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://api.tsupryk.mesto.nomoreparties.sbs",
+  baseUrl: REACT_APP_API_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 

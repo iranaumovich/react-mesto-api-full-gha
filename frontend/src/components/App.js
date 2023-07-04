@@ -1,35 +1,35 @@
-import React from "react";
-import Header from "./Header.js";
-import Main from "./Main.js";
-import Footer from "./Footer.js";
-import PopupWithForm from "./PopupWithForm.js";
-import ImagePopup from "./ImagePopup.js";
-import EditProfilePopup from "./EditProfilePopup.js";
-import EditAvatarPopup from "./EditAvatarPopup.js";
-import AddPlacePopup from "./AddPlacePopup.js";
-import profileAvatar from "../images/profile-avatar.jpg";
-import InfoTooltip from "./InfoTooltip.js";
+import React, { useCallback } from 'react';
+import Header from './Header.js';
+import Main from './Main.js';
+import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm.js';
+import ImagePopup from './ImagePopup.js';
+import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
+import AddPlacePopup from './AddPlacePopup.js';
+import profileAvatar from '../images/profile-avatar.jpg';
+import InfoTooltip from './InfoTooltip.js';
 
-import Register from "./Register.js";
-import Login from "./Login.js";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import ProtectedRouteElement from "./ProtectedRoute";
-import * as auth from "../utils/auth.js";
+import Register from './Register.js';
+import Login from './Login.js';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import ProtectedRouteElement from './ProtectedRoute';
+import * as auth from '../utils/auth.js';
 
-import "../index.css";
-import api from "../utils/api.js";
-import { CurrentUserContext } from "../components/CurrentUserContext.js";
+import '../index.css';
+import api from '../utils/api.js';
+import { CurrentUserContext } from '../components/CurrentUserContext.js';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({
-    id: "",
-    name: "Христофор Колумб",
-    description: "Исследователь земель",
+    id: '',
+    name: 'Христофор Колумб',
+    description: 'Исследователь земель',
     avatar: profileAvatar,
-    email: "",
+    email: '',
   });
-  const [userEmail, setUserEmail] = React.useState("");
+  const [userEmail, setUserEmail] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -42,20 +42,20 @@ function App() {
   const [isError, setIsError] = React.useState(false);
   const navigate = useNavigate();
 
-  function tokenCheck() {
-    if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
+  const tokenCheck = useCallback(() => {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
 
       if (token) {
         auth
           .getContentByToken(token)
           .then((res) => {
             if (res) {
-              console.log(res);
               const userEmail = res.email;
+              api.setAuthToken(token);
               setLoggedIn(true);
               setUserEmail(userEmail);
-              navigate("/mesto", { replace: true });
+              navigate('/mesto', { replace: true });
             }
           })
           .catch((err) => {
@@ -63,12 +63,12 @@ function App() {
           });
       }
     }
-  }
+  }, []);
 
   //проверяем токен при загрузке страницы, чтобы узнать авторизован ли пользователь
   React.useEffect(() => {
-    tokenCheck();
-  }, []);
+    !loggedIn && tokenCheck();
+  }, [tokenCheck, loggedIn]);
 
   //делаем запрос на сервер за начальными данными - юзера и карточек, обновляем стейт-переменную из полученного от сервера значения.
   React.useEffect(() => {
@@ -78,6 +78,7 @@ function App() {
           setCurrentUser({
             id: userData._id,
             name: userData.name,
+            email: userData.email,
             description: userData.about,
             avatar: userData.avatar,
           });
@@ -189,7 +190,7 @@ function App() {
         console.log(res);
         setIsError(false);
         setIsInfoTooltipOpen(true);
-        navigate("/sign-in", { replace: true });
+        navigate('/sign-in', { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -203,8 +204,9 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (data.token) {
+          api.setAuthToken(data.token);
           setLoggedIn(true);
-          navigate("/mesto", { replace: true });
+          navigate('/mesto', { replace: true });
         }
       })
       .catch((err) => {

@@ -1,4 +1,7 @@
-export const BASE_URL = "https://api.tsupryk.mesto.nomoreparties.sbs";
+const { REACT_APP_API_URL = 'https://api.tsupryk.mesto.nomoreparties.sbs' } =
+  process.env;
+
+export const BASE_URL = REACT_APP_API_URL;
 
 function checkResponse(res) {
   if (res.ok) {
@@ -9,10 +12,10 @@ function checkResponse(res) {
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   }).then(checkResponse);
@@ -20,17 +23,17 @@ export const register = (email, password) => {
 
 export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   })
     .then(checkResponse)
     .then((data) => {
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem('token', data.token);
         return data;
       }
     });
@@ -39,11 +42,9 @@ export const authorize = (email, password) => {
 export const getContentByToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-  })
-    .then(checkResponse) // { data: { email: '', _id: '' }}
-    .then(({ data }) => data); // { email: '', _id: '' }
+  }).then(checkResponse); // { data: { email: '', _id: '' }}
 };
