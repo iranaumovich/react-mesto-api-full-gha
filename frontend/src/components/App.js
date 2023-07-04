@@ -45,7 +45,7 @@ function App() {
   function tokenCheck() {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
-      console.log(token);
+
       if (token) {
         auth
           .getContentByToken(token)
@@ -88,8 +88,8 @@ function App() {
         });
     }
 
-    acc();
-  }, []);
+    loggedIn && acc();
+  }, [loggedIn]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);

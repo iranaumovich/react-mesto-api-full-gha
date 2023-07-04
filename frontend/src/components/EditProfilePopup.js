@@ -34,8 +34,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     onUpdateUser(values.name, values.about);
   }
 
-  console.log(errors);
-
   return (
     <PopupWithForm
       name="edit-form"
