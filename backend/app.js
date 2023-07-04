@@ -10,6 +10,7 @@ const NotFoundError = require("./errors/NotFoundError");
 const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const rateLimit = require("express-rate-limit");
+const cors = require("./middlewares/cors");
 
 // настроили порт из переменной окружения, который слушаем.
 const { PORT = 3000, DB_URL = "mongodb://localhost:27017/mestodb" } =
@@ -34,6 +35,8 @@ app.use(express.json());
 app.use(requestLogger);
 
 app.use(limiter);
+
+app.use(cors);
 
 app.get("/crash-test", () => {
   setTimeout(() => {
