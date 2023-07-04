@@ -1,19 +1,19 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const mongoose = require("mongoose");
-const { celebrate, Joi, errors } = require("celebrate");
-const { login, createUser } = require("./controllers/users");
-const auth = require("./middlewares/auth");
-const { urlRegex } = require("./utils");
-const NotFoundError = require("./errors/NotFoundError");
-const errorHandler = require("./middlewares/error-handler");
-const { requestLogger, errorLogger } = require("./middlewares/logger");
-const rateLimit = require("express-rate-limit");
-const cors = require("./middlewares/cors");
+const express = require('express');
+const mongoose = require('mongoose');
+const { celebrate, Joi, errors } = require('celebrate');
+const { login, createUser } = require('./controllers/users');
+const auth = require('./middlewares/auth');
+const { urlRegex } = require('./utils');
+const NotFoundError = require('./errors/NotFoundError');
+const errorHandler = require('./middlewares/error-handler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const rateLimit = require('express-rate-limit');
+const cors = require('./middlewares/cors');
 
 // настроили порт из переменной окружения, который слушаем.
-const { PORT = 3000, DB_URL = "mongodb://localhost:27017/mestodb" } =
+const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/mestodb' } =
   process.env;
 
 const limiter = rateLimit({
@@ -38,14 +38,14 @@ app.use(limiter);
 
 app.use(cors);
 
-app.get("/crash-test", () => {
+app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error("Сервер сейчас упадёт");
+    throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
 
 app.post(
-  "/signin",
+  '/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email({ minDomainSegments: 2 }),
@@ -55,7 +55,7 @@ app.post(
   login
 );
 app.post(
-  "/signup",
+  '/signup',
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
@@ -70,13 +70,13 @@ app.post(
 
 app.use(auth);
 
-app.use("/", require("./routes/users"));
-app.use("/", require("./routes/cards"));
+app.use('/', require('./routes/users'));
+app.use('/', require('./routes/cards'));
 
 app.use(errorLogger);
 
-app.use("*", (req, res, next) => {
-  next(new NotFoundError("Маршрут не найден"));
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Маршрут не найден'));
 });
 
 app.use(errors());
