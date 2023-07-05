@@ -29,7 +29,6 @@ function App() {
     avatar: profileAvatar,
     email: '',
   });
-  const [userEmail, setUserEmail] = React.useState('');
   const [cards, setCards] = React.useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
@@ -51,10 +50,15 @@ function App() {
           .getContentByToken(token)
           .then((res) => {
             if (res) {
-              const userEmail = res.email;
               api.setAuthToken(token);
               setLoggedIn(true);
-              setUserEmail(userEmail);
+              setCurrentUser({
+                id: res._id,
+                avatar: res.avatar,
+                email: res.email,
+                name: res.name,
+                description: res.about,
+              });
               navigate('/mesto', { replace: true });
             }
           })
@@ -233,7 +237,7 @@ function App() {
     <CurrentUserContext.Provider value={{ currentUser, loggedIn }}>
       <div className="page">
         <div className="container">
-          <Header userEmail={userEmail} onLogout={handleLogout} />
+          <Header userEmail={currentUser.email} onLogout={handleLogout} />
           <Routes>
             <Route
               path="/"
