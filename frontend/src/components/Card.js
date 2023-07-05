@@ -1,5 +1,5 @@
-import React from "react";
-import { CurrentUserContext } from "../components/CurrentUserContext.js";
+import React from 'react';
+import { CurrentUserContext } from '../components/CurrentUserContext.js';
 
 function Card(props) {
   function handleClick() {
@@ -14,7 +14,7 @@ function Card(props) {
 
   // определяем, есть ли у карточки лайк, поставленный текущим пользователем, если есть - добавляем в jsx класс
   const isLiked = props.card.likes.some(
-    (elem) => elem._id === userData.currentUser.id
+    (elem) => elem === userData.currentUser.id
   );
 
   function handleLikeClick() {
@@ -47,7 +47,7 @@ function Card(props) {
           <button
             type="button"
             className={`place__like-button ${
-              isLiked && "place__like-button_active"
+              isLiked && 'place__like-button_active'
             }`}
             aria-label="кнопка-лайк на фотографию"
             onClick={handleLikeClick}
