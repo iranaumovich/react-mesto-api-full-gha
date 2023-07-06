@@ -10,7 +10,7 @@ function Card(props) {
   const userData = React.useContext(CurrentUserContext);
 
   //определяем являемся ли мы владельцем карточки и в jsx добавляем кнопку удаления только на нашу карточку
-  const isOwn = props.card.owner._id === userData.currentUser.id;
+  const isOwn = props.card.owner === userData.currentUser.id;
 
   // определяем, есть ли у карточки лайк, поставленный текущим пользователем, если есть - добавляем в jsx класс
   const isLiked = props.card.likes.some(
